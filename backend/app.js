@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
+const cookieParser = require('cookie-parser');
 const makeDbConnection = require('./connection');
 const userRouter = require('./routes/userRoutes');
 require('dotenv').config();
@@ -11,6 +12,7 @@ const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(cors());
 
 // Database connection

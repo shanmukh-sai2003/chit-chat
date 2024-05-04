@@ -1,6 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const User = require("../models/user");
 const bcrypt = require('bcrypt');
+const { generateAccessToken, generateRefreshToken } = require('./authController');
 
 exports.createUser = [
     body('username').trim().notEmpty().escape().withMessage("username cannot be empty").custom( async (value) => {
@@ -89,8 +90,14 @@ exports.userLogin = [
             }
 
             const { username, email, joinedAt, _id } = user;
+            const userPlayload = { username, email, joinedAt, userId: _id };
 
-            return res.status(200).json({ success: true, data: { username, email, joinedAt, userId: _id} });
+            const accessToken = generateAccessToken(userPlayload);
+            const refreshToken = generateRefreshToken(userPlayload);
+
+            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None' });
+
+            return res.status(200).json({ success: true, data: userPlayload, accessToken: accessToken });
         } catch (error) {
             console.log(error.message);
             return res.status(500).json({ success: false, message: error.message });
