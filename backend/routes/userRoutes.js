@@ -7,7 +7,7 @@ router.get('',);
 
 router.post('', userController.createUser);
 
-router.post('/login',);
+router.post('/login', userController.userLogin);
 
 router.delete('/logout',);
 
