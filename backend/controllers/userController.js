@@ -104,3 +104,20 @@ exports.userLogin = [
         }   
     }
 ];
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        let userList = await User.find().select('-password').exec();
+
+        userList = userList.filter(user => String(user._id) !== req.user.userInfo.userId);
+        const response = {
+            success: true,
+            data: userList
+        };
+
+        res.status(200).json(response);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+}

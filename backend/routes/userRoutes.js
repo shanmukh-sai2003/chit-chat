@@ -4,7 +4,7 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.get('',);
+router.get('', authController.verifyAccessToken, userController.getAllUsers);
 
 router.post('', userController.createUser);
 
