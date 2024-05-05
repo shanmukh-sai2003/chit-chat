@@ -15,7 +15,8 @@ exports.createChat = async (req, res) => {
 
         const userId = req.user.userInfo.userId;
         const exsistingChat = await Chat.find({ isGroupChat: false, participants: { $all: [userId, receiverId] } });
-        if(exsistingChat) {
+        console.log(exsistingChat);
+        if(exsistingChat.length != 0) {
             const response = {
                 success: false,
                 message: "Already chat exsists between the users"

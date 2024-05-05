@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const makeDbConnection = require('./connection');
 const userRouter = require('./routes/userRoutes');
 const chatRouter = require('./routes/chatRoutes');
+const messageRouter = require('./routes/messageRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -22,6 +23,7 @@ makeDbConnection();
 // Routes setup
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/chats', chatRouter);
+app.use('/api/v1/messages', messageRouter);
 
 const PORT = process.env.PORT || 3000;
 
