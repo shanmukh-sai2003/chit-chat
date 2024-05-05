@@ -6,7 +6,7 @@ const { generateAccessToken, generateRefreshToken } = require('./authController'
 exports.createUser = [
     body('username').trim().notEmpty().escape().withMessage("username cannot be empty").custom( async (value) => {
         const user = await User.findOne({ username: value }).exec();
-        if(user) throw new Error('Already user exsists with the username');
+        if(user) throw new Error('Already user exsists with the username!! Try another username');
     }),
     body('email').trim().isEmail().withMessage("Not a valid email").custom( async (value) => {
         const user = await User.findOne({ email: value }).exec();

@@ -4,6 +4,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const makeDbConnection = require('./connection');
 const userRouter = require('./routes/userRoutes');
+const chatRouter = require('./routes/chatRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -20,6 +21,7 @@ makeDbConnection();
 
 // Routes setup
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/chats', chatRouter);
 
 const PORT = process.env.PORT || 3000;
 
