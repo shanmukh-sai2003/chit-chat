@@ -17,4 +17,10 @@ router.get('/groups/:chatId', authController.verifyAccessToken, chatController.g
 
 router.patch('/groups/:chatId', authController.verifyAccessToken, chatController.changeGroupName);
 
+router.post('/groups/:chatId/:participantId', authController.verifyAccessToken, chatController.addParticipant);
+
+router.delete('/groups/:chatId/leave', authController.verifyAccessToken, chatController.leaveChat);
+
+router.delete('/groups/:chatId/:participantId', authController.verifyAccessToken, chatController.removeParticipant);
+
 module.exports = router;

@@ -180,3 +180,84 @@ exports.changeGroupName = [
         }
     }
 ];
+
+exports.addParticipant = async (req, res) => {
+    try {
+        const { chatId, participantId } = req.params;
+        const userId = req.user.userInfo.userId;
+        const participant = await User.findById(participantId);
+        if(!participant) {
+            return res.status(400).json({ success: false, message: "User does not exists" });
+        }
+
+        const chat = await Chat.findOne({ isGroupChat: true, _id: chatId });
+
+        if(chat.length == 0) {
+            return res.status(400).json({ success: false, message: "No such group chat exists" });
+        }
+
+        if(String(chat.admin) !== userId) {
+            return res.status(403).json({ success: false, message: "That the user is not admin" });
+        }
+
+        chat.participants.push(participantId);
+        await chat.save();
+
+        res.status(200).json({ success: true, message: "participant added" });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ success: false, message: error.message });   
+    }
+}
+
+exports.removeParticipant = async (req, res) => {
+    try {
+        const { chatId, participantId } = req.params;
+        const userId = req.user.userInfo.userId;
+
+        const chat = await Chat.findById(chatId);
+        if(!chat) {
+            return res.status(400).json({ success: false, message: "no such chat exists" });
+        }
+
+        if(!chat.participants.includes(participantId)) {
+            return res.status(400).json({ success: false, message: "No such participant in the group" });
+        }
+
+        if(chat.admin != userId) {
+            return res.status(403).json({ success: false, message: "user is not admin" });
+        }
+
+        chat.participants = chat.participants.filter(participant => participant != participantId);
+        await chat.save();
+
+        res.status(200).json({ success: true, message: "participant removed" });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+exports.leaveChat = async (req, res) => {
+    try {
+        const { chatId } = req.params;
+        const userId = req.user.userInfo.userId;
+
+        const chat = await Chat.findById(chatId);
+        if(!chat) {
+            return res.status(400).json({ success: false, message: "no such chat exists" });
+        }
+
+        if(!chat.participants.includes(userId)) {
+            return res.status(400).json({ success: false, message: "user does not exists in the group" });
+        }
+
+        chat.participants = chat.participants.filter(participant => participant != userId);
+        await chat.save();
+
+        res.status(200).json({ success: true, message: "left the group" });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
