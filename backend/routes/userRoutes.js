@@ -12,7 +12,7 @@ router.post('/login', userController.userLogin);
 
 router.delete('/logout',);
 
-router.put('',);
+router.patch('',);
 
 router.get('/refresh', authController.verifyRefreshToken);
 
