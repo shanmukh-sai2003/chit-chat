@@ -6,14 +6,14 @@ const { generateAccessToken, generateRefreshToken } = require('./authController'
 exports.createUser = [
     body('username').trim().notEmpty().escape().withMessage("username cannot be empty").custom( async (value) => {
         const user = await User.findOne({ username: value }).exec();
-        if(user) throw new Error('Already user exsists with the username!! Try another username');
+        if(user) throw new Error('Already user exists with the username!! Try another username');
     }),
     body('email').trim().isEmail().withMessage("Not a valid email").custom( async (value) => {
         const user = await User.findOne({ email: value }).exec();
         if(user) {
-            throw new Error('Already user exsists with email');
+            throw new Error('Already user exists with email');
         }
-    }).withMessage("Already user exsists with this email"),
+    }).withMessage("Already user exists with this email"),
     body('password').trim().isLength({ min: 8 }).withMessage("invalid password!! password length should be minimum 8"),
     body('confirmPassword').trim().custom((value, { req }) => {
         return value === req.body.password;
@@ -78,7 +78,7 @@ exports.userLogin = [
             const user = await User.findOne({ username: req.body.username }).exec();
         
             if(!user) {
-                return res.status(401).json({ success: false, message: "Invalid username!! no user exsists with the username" });
+                return res.status(401).json({ success: false, message: "Invalid username!! no user exists with the username" });
             }
 
             const pwd = req.body.password;

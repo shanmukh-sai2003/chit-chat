@@ -22,7 +22,7 @@ exports.createMessage = [
     param('chatId').trim().notEmpty().withMessage("chatId is required").escape().custom( async value => {
         const chat = await Chat.findById(value);
         if(!chat) {
-            throw new Error('no such chat exsists');
+            throw new Error('no such chat exists');
         }
     }),
 
@@ -73,7 +73,7 @@ exports.deleteAllMessages = [
     param('chatId').trim().notEmpty().withMessage("chatId is required").escape().custom( async value => {
         const chat = await Chat.findById(value);
         if(!chat) {
-            throw new Error('no such chat exsists');
+            throw new Error('no such chat exists');
         }
     }),
 
