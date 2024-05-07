@@ -1,8 +1,8 @@
-const Chat = require('../models/chat');
-const User = require('../models/user');
-const { body, validationResult } = require('express-validator');
+import Chat from '../models/chat.js';
+import User from '../models/user.js';
+import { body, validationResult } from 'express-validator';
 
-exports.createChat = async (req, res) => {
+export const createChat = async (req, res) => {
     try {
         const receiverId = req.params.receiverId;
         const receiver = await User.findById(receiverId).select('-password').exec();
@@ -46,7 +46,7 @@ exports.createChat = async (req, res) => {
     }
 }
 
-exports.getAllChats = async (req, res) => {
+export const getAllChats = async (req, res) => {
     try {
         const userId = req.user.userInfo.userId;
         const chats = await Chat.find({ participants: { $elemMatch: { $eq: userId }} }).populate('participants', '-password -__v');
@@ -63,7 +63,7 @@ exports.getAllChats = async (req, res) => {
     }
 }
 
-exports.deleteChat = async (req, res) => {
+export const deleteChat = async (req, res) => {
     try {
         const chatId = req.params.chatId;
         const response = await Chat.findByIdAndDelete(chatId);
@@ -79,7 +79,7 @@ exports.deleteChat = async (req, res) => {
     }
 }
 
-exports.createGroupChat = [
+export const createGroupChat = [
     body('name').trim().notEmpty().withMessage("Group name is required").escape(),
     body('participants').isArray({ min: 2, max: 100}).withMessage("Group should have only 2 to 100 participants"),
 
@@ -114,7 +114,7 @@ exports.createGroupChat = [
     }
 ];
 
-exports.getGroupChatDetails = async (req, res) => {
+export const getGroupChatDetails = async (req, res) => {
     try {
         const chatId = req.params.chatId;
         const chat = await Chat.find({ isGroupChat: true, _id: chatId }).populate('participants', '-password -__v');
@@ -134,7 +134,7 @@ exports.getGroupChatDetails = async (req, res) => {
     }
 }
 
-exports.changeGroupName = [
+export const changeGroupName = [
     body('name').trim().notEmpty().withMessage('Group name is required'),
 
     async (req, res) => {
@@ -181,7 +181,7 @@ exports.changeGroupName = [
     }
 ];
 
-exports.addParticipant = async (req, res) => {
+export const addParticipant = async (req, res) => {
     try {
         const { chatId, participantId } = req.params;
         const userId = req.user.userInfo.userId;
@@ -210,7 +210,7 @@ exports.addParticipant = async (req, res) => {
     }
 }
 
-exports.removeParticipant = async (req, res) => {
+export const removeParticipant = async (req, res) => {
     try {
         const { chatId, participantId } = req.params;
         const userId = req.user.userInfo.userId;
@@ -238,7 +238,7 @@ exports.removeParticipant = async (req, res) => {
     }
 }
 
-exports.leaveChat = async (req, res) => {
+export const leaveChat = async (req, res) => {
     try {
         const { chatId } = req.params;
         const userId = req.user.userInfo.userId;

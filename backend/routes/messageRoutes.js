@@ -1,15 +1,15 @@
-const express = require('express');
-const authController = require('../controllers/authController');
-const messageController = require('../controllers/messageController');
+import express from 'express';
+import { verifyAccessToken } from '../controllers/authController.js';
+import { getAllMessages, createMessage, deleteAllMessages, deleteMessage } from '../controllers/messageController.js';
 
 const router = express.Router();
 
-router.get('/:chatId', authController.verifyAccessToken, messageController.getAllMessages);
+router.get('/:chatId', verifyAccessToken, getAllMessages);
 
-router.post('/:chatId', authController.verifyAccessToken, messageController.createMessage);
+router.post('/:chatId', verifyAccessToken, createMessage);
 
-router.delete('/clear/:chatId', authController.verifyAccessToken, messageController.deleteAllMessages);
+router.delete('/clear/:chatId', verifyAccessToken, deleteAllMessages);
 
-router.delete('/:messageId', authController.verifyAccessToken, messageController.deleteMessage);
+router.delete('/:messageId', verifyAccessToken, deleteMessage);
 
-module.exports = router;
+export default router;

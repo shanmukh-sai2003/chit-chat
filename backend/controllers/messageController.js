@@ -1,9 +1,8 @@
-const Chat = require('../models/chat');
-const message = require('../models/message');
-const Message = require('../models/message');
-const { body, validationResult, param } = require('express-validator');
+import Chat from '../models/chat.js';
+import Message from '../models/message.js';
+import { body, validationResult, param } from 'express-validator';
 
-exports.getAllMessages = async (req, res) => {
+export const getAllMessages = async (req, res) => {
     try {
         const messages = await Message.find({ chatId: req.params.chatId }).populate('sender', '-password -__v').exec();
         const response = {
@@ -17,7 +16,7 @@ exports.getAllMessages = async (req, res) => {
     }
 }
 
-exports.createMessage = [
+export const createMessage = [
     body('content').trim().notEmpty().withMessage("message is required").escape(),
     param('chatId').trim().notEmpty().withMessage("chatId is required").escape().custom( async value => {
         const chat = await Chat.findById(value);
@@ -54,7 +53,7 @@ exports.createMessage = [
     }
 ];
 
-exports.deleteMessage = async (req, res) => {
+export const deleteMessage = async (req, res) => {
     try {
         const message = await Message.findByIdAndDelete(req.params.messageId);
         const response = {
@@ -69,7 +68,7 @@ exports.deleteMessage = async (req, res) => {
     }
 }
 
-exports.deleteAllMessages = [
+export const deleteAllMessages = [
     param('chatId').trim().notEmpty().withMessage("chatId is required").escape().custom( async value => {
         const chat = await Chat.findById(value);
         if(!chat) {

@@ -1,9 +1,9 @@
-const { body, validationResult } = require('express-validator');
-const User = require("../models/user");
-const bcrypt = require('bcrypt');
-const { generateAccessToken, generateRefreshToken } = require('./authController');
+import { body, validationResult } from 'express-validator';
+import User from '../models/user.js';
+import bcrypt from 'bcrypt';
+import { generateAccessToken, generateRefreshToken } from './authController.js';
 
-exports.createUser = [
+export const createUser = [
     body('username').trim().notEmpty().escape().withMessage("username cannot be empty").custom( async (value) => {
         const user = await User.findOne({ username: value }).exec();
         if(user) throw new Error('Already user exists with the username!! Try another username');
@@ -59,7 +59,7 @@ exports.createUser = [
     }
 ];
 
-exports.userLogin = [
+export const userLogin = [
     body('username').trim().notEmpty().withMessage("invalid username!! username is required to login").escape(),
     body('password').trim().isLength({ min: 8 }).withMessage("invalid password!!").escape(),
 
@@ -105,7 +105,7 @@ exports.userLogin = [
     }
 ];
 
-exports.getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
     try {
         let userList = await User.find().select('-password').exec();
 

@@ -1,19 +1,19 @@
-const express = require('express');
-const userController = require('../controllers/userController');
-const authController = require('../controllers/authController');
+import express from 'express';
+import { getAllUsers, createUser, userLogin } from '../controllers/userController.js';
+import { verifyAccessToken, verifyRefreshToken } from '../controllers/authController.js';
 
 const router = express.Router();
 
-router.get('', authController.verifyAccessToken, userController.getAllUsers);
+router.get('', verifyAccessToken, getAllUsers);
 
-router.post('', userController.createUser);
+router.post('', createUser);
 
-router.post('/login', userController.userLogin);
+router.post('/login', userLogin);
 
 router.delete('/logout',);
 
 router.patch('',);
 
-router.get('/refresh', authController.verifyRefreshToken);
+router.get('/refresh', verifyRefreshToken);
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -10,4 +10,4 @@ const ChatSchema = Schema({
     admin: { type: Schema.Types.ObjectId, ref: "User" }
 });
 
-module.exports = mongoose.model('Chat', ChatSchema);
+export default mongoose.model('Chat', ChatSchema);

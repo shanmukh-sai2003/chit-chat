@@ -1,12 +1,13 @@
-const express = require('express');
-const cors = require('cors');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const makeDbConnection = require('./connection');
-const userRouter = require('./routes/userRoutes');
-const chatRouter = require('./routes/chatRoutes');
-const messageRouter = require('./routes/messageRoutes');
-require('dotenv').config();
+import express from "express";
+import cors from 'cors';
+import logger from 'morgan';
+import cookieParser from "cookie-parser";
+import makeDbConnection from './connection.js';
+import userRouter from './routes/userRoutes.js';
+import chatRouter from './routes/chatRoutes.js';
+import messageRouter from './routes/messageRoutes.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 

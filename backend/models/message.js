@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -9,4 +9,4 @@ const MessageSchema = Schema({
     sentAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Message', MessageSchema);
+export default mongoose.model('Message', MessageSchema);
