@@ -1,11 +1,33 @@
+import { createBrowserRouter } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import AuthProvider from '../context/AuthProvider';
+import Login from './Login';
+import SignUp from './SignUp';
 
 function App() {
 
   return (
-    <>
-      <h1 className="text-3xl font-bold">hello world</h1>
-    </>
-  )
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
+  );
 }
 
-export default App
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'signup',
+        element: <SignUp />
+      }
+    ]
+  },
+]);
+
+export default router;
