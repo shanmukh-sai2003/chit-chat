@@ -15,7 +15,7 @@ function Login() {
         e.preventDefault();
         try {
             const response = await api.post('/users/login', { username, password });
-            setAuth({ user: response.data, accessToken: response.accessToken });
+            setAuth({ user: response?.data?.data, accessToken: response?.data?.accessToken });
             navigate('/');
         } catch (err) {
             setErrorMessage(err?.response?.data?.message);
@@ -41,6 +41,7 @@ function Login() {
                         placeholder="Enter username"
                         className="rounded-md p-3 my-2 bg-slate-900 focus:outline-none focus:border-white focus:border-2"
                         autoComplete="off"
+                        required
                     />
                     <label htmlFor="password">password:</label>
                     <input type="password" name="password" id="password"
@@ -49,6 +50,7 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                         className="rounded-md p-3 my-2 bg-slate-900 focus:outline-none focus:border-white focus:border-2"
                         autoComplete="off"
+                        required
                     />
                     <button type="submit" className="w-fit p-4 rounded-lg bg-slate-900 font-bold mt-4 hover:shadow-md hover:shadow-blue-500/20">login</button>
                 </form>
