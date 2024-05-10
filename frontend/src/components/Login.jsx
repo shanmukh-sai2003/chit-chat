@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import ErrorMessage from "./ErrorMessage";
-import api from '../utils/api';
 import useAuth from '../utils/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { login } from "../utils/services";
 
 function Login() {
     const [username, setUsername] = useState(""); 
@@ -14,12 +14,16 @@ function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const response = await api.post('/users/login', { username, password });
-            setAuth({ user: response?.data?.data, accessToken: response?.data?.accessToken });
-            navigate('/');
+            const data = await login({ username, password });
+            if(data?.success) {
+                setAuth({ user: data?.data, accessToken: data?.accessToken });
+                setUsername('');
+                setPassword('');
+                navigate('/');
+            }
+            setErrorMessage(data?.message);
         } catch (err) {
-            setErrorMessage(err?.response?.data?.message);
-            console.log(err?.message);
+            console.log(err.message);
         }
     }
 

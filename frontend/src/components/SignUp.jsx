@@ -19,8 +19,8 @@ function SignUp() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const data = await createUser({ name, username, email, password, confirmPassword }, setError);
-            if(data.success) {
+            const data = await createUser({ name, username, email, password, confirmPassword });
+            if(data?.success) {
                 setUsername('');
                 setPassword('');
                 setEmail('');
@@ -28,6 +28,8 @@ function SignUp() {
                 setConfirmPassword('');
                 navigate('/login');
             }
+
+            setError(data?.message);
         } catch (error) {
             console.log(error);
         }

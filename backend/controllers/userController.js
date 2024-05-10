@@ -107,9 +107,9 @@ export const userLogin = [
 
 export const getAllUsers = async (req, res) => {
     try {
-        let userList = await User.find().select('-password').exec();
+        let userList = await User.find({ _id: { $ne: req.user.userInfo.userId } }).select('-password').exec();
 
-        userList = userList.filter(user => String(user._id) !== req.user.userInfo.userId);
+        // userList = userList.filter(user => String(user._id) !== req.user.userInfo.userId);
         const response = {
             success: true,
             data: userList
