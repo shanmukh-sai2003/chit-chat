@@ -1,19 +1,22 @@
 import useAuth from "../../utils/useAuth";
 import defaultDp from '../../images/default-image.jpg';
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../../utils/services";
+import { getAllChats } from "../../utils/services";
 import ChatItem from "./ChatItem";
-function ChatList() {
+function ChatList(props) {
     const { auth } = useAuth();
     const [ search, setSearch ] = useState('');
-    const [ usersList, setUsersList ] = useState([]);
+    const [ chatsList, setChatsList ] = useState([]);
+    // eslint-disable-next-line react/prop-types
+    const { changeChat } = props;
 
     useEffect(() => {
         async function getUsers() {
             try {
-                const data = await getAllUsers(auth);
+                const data = await getAllChats(auth);
+                console.log(data);
                 if(data?.success) {
-                    setUsersList(data?.data);
+                    setChatsList(data?.data);
                 }
                 console.log(data?.message);
             } catch (error) {
@@ -43,12 +46,15 @@ function ChatList() {
                 </div> 
             </div>
             <div className="my-2">
-                { usersList.map(user => {
+                { chatsList.map(chat => {
                     return <ChatItem 
-                        key={user._id}
-                        username={user.username}
-                        email={user.email}
-                        joinedAt={user.joinedAt}
+                        key={chat._id}
+                        chatId={chat._id}
+                        participants={chat.participants}
+                        isGroupChat={chat.isGroupChat}
+                        groupName={chat.groupName}
+                        createdAt={chat.createdAt}
+                        setChat={changeChat}
                     />
                 })}
             </div>

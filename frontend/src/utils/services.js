@@ -29,9 +29,33 @@ export const getAllUsers = async (auth) => {
         const response = await api.get('/users', { headers: { 'Authorization' : `Bearer ${auth.accessToken}` } });
         return response?.data;
     } catch (error) {
-        console.log(error?.response);
+        console.log(error.message);
         if(error?.response) {
             return error?.response?.data;
         }
     }
 } 
+
+export const getAllChats = async (auth) => {
+    try {
+        const response = await api.get('/chats', { headers: { "Authorization": `Bearer ${auth.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}
+
+export const getChatMessages = async (auth, chatId) => {
+    try {
+        const response = await api.get(`/messages/${chatId}`, { headers: { 'Authorization': `Bearer ${auth.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}
