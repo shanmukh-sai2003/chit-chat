@@ -4,18 +4,20 @@ import useAuth from "../../utils/useAuth";
 import useChat from '../../utils/useChat';
 import { sendMessage } from "../../utils/services";
 
-function MessageInput() {
+function MessageInput(props) {
     const { chat } = useChat();
     const [message, setMessage] = useState('');
     const { auth } = useAuth();
     const inputRef = useRef();
+    const { addMessage } = props;
 
     async function handleSubmit(e) {
         e.preventDefault();
         try {
             const data = await sendMessage(auth, chat?.chatId, { content: message });
             if(data?.success) {
-                console.log(data?.message);
+                console.log(data);
+                addMessage(prev => [data?.data, ...prev]);
                 setMessage('');
             }
         } catch (error) {

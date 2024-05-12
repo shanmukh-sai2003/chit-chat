@@ -30,7 +30,7 @@ function ChatPage() {
 
     return (
         <section className="w-[67vw] bg-slate-800">
-            <MessageInput />
+            <MessageInput addMessage={setMessageList} />
             <div className="my-2 mx-10 flex flex-col-reverse overflow-y-scroll h-[80%] no-scrollbar">
                 { messageList?.map(message => {
                     return <MessageItem 
