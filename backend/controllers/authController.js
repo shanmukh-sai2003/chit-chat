@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const generateAccessToken = (user) => {
-    const token = jwt.sign({ userInfo: user }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '30m'});
+    const token = jwt.sign({ userInfo: user }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '30s'});
     return token
 }
 

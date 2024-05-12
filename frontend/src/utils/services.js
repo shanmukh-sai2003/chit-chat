@@ -1,4 +1,5 @@
 import api from './api';
+import { apiPrivate } from './api';
 
 export const createUser = async (body) => {
     try {
@@ -26,7 +27,7 @@ export const login = async (body) => {
 
 export const getAllUsers = async (auth) => {
     try {
-        const response = await api.get('/users', { headers: { 'Authorization' : `Bearer ${auth.accessToken}` } });
+        const response = await apiPrivate.get('/users', { headers: { 'Authorization' : `Bearer ${auth.accessToken}` } });
         return response?.data;
     } catch (error) {
         console.log(error.message);
@@ -38,7 +39,7 @@ export const getAllUsers = async (auth) => {
 
 export const getAllChats = async (auth) => {
     try {
-        const response = await api.get('/chats', { headers: { "Authorization": `Bearer ${auth.accessToken}` } });
+        const response = await apiPrivate.get('/chats', { headers: { "Authorization": `Bearer ${auth.accessToken}` } });
         return response?.data;
     } catch (error) {
         console.log(error.message);
@@ -50,7 +51,7 @@ export const getAllChats = async (auth) => {
 
 export const getChatMessages = async (auth, chatId) => {
     try {
-        const response = await api.get(`/messages/${chatId}`, { headers: { 'Authorization': `Bearer ${auth.accessToken}` } });
+        const response = await apiPrivate.get(`/messages/${chatId}`, { headers: { 'Authorization': `Bearer ${auth.accessToken}` } });
         return response?.data;
     } catch (error) {
         console.log(error.message);
@@ -62,7 +63,7 @@ export const getChatMessages = async (auth, chatId) => {
 
 export const sendMessage = async (auth, chatId, body) => {
     try {
-        const response = await api.post(`/messages/${chatId}`, body, { headers: { 'Authorization': `Bearer ${auth.accessToken}` } });
+        const response = await apiPrivate.post(`/messages/${chatId}`, body, { headers: { 'Authorization': `Bearer ${auth.accessToken}` } });
         return response?.data;
     } catch (error) {
         console.log(error.message);
