@@ -59,3 +59,15 @@ export const getChatMessages = async (auth, chatId) => {
         }
     }
 }
+
+export const sendMessage = async (auth, chatId, body) => {
+    try {
+        const response = await api.post(`/messages/${chatId}`, body, { headers: { 'Authorization': `Bearer ${auth.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}

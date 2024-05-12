@@ -4,7 +4,7 @@ import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 function AuthProvider({ children }) {
-    const [auth, setAuth] = useState({});
+    const [auth, setAuth] = useState(null);
 
     return (
         <AuthContext.Provider value={{ auth, setAuth }} >

@@ -3,12 +3,10 @@ import defaultDp from '../../images/default-image.jpg';
 import { useEffect, useState } from "react";
 import { getAllChats } from "../../utils/services";
 import ChatItem from "./ChatItem";
-function ChatList(props) {
+function ChatList() {
     const { auth } = useAuth();
     const [ search, setSearch ] = useState('');
     const [ chatsList, setChatsList ] = useState([]);
-    // eslint-disable-next-line react/prop-types
-    const { changeChat } = props;
 
     useEffect(() => {
         async function getUsers() {
@@ -54,7 +52,6 @@ function ChatList(props) {
                         isGroupChat={chat.isGroupChat}
                         groupName={chat.groupName}
                         createdAt={chat.createdAt}
-                        setChat={changeChat}
                     />
                 })}
             </div>

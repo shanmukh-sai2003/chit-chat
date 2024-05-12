@@ -4,7 +4,7 @@ import { body, validationResult, param } from 'express-validator';
 
 export const getAllMessages = async (req, res) => {
     try {
-        const messages = await Message.find({ chatId: req.params.chatId }).populate('sender', '-password -__v').exec();
+        const messages = await Message.find({ chatId: req.params.chatId }).populate('sender', '-password -__v').sort({ sentAt: -1 }).exec();
         const response = {
             success: true,
             data: messages,
