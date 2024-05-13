@@ -95,9 +95,9 @@ export const userLogin = [
             const accessToken = generateAccessToken(userPlayload);
             const refreshToken = generateRefreshToken(userPlayload);
 
-            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None' });
+            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'none' });
 
-            return res.status(200).json({ success: true, data: userPlayload, accessToken: accessToken });
+            res.status(200).json({ success: true, data: userPlayload, accessToken: accessToken });
         } catch (error) {
             console.log(error.message);
             return res.status(500).json({ success: false, message: error.message });

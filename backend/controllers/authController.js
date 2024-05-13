@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const generateAccessToken = (user) => {
-    const token = jwt.sign({ userInfo: user }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '30s'});
+    const token = jwt.sign({ userInfo: user }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '10s'});
     return token
 }
 
@@ -32,17 +32,19 @@ export const generateRefreshToken = (user) => {
 }
 
 export const verifyRefreshToken = (req, res) => {
-    const refreshToken = req.cookies['refreshToken'];
-    if(!refreshToken) {
+    const cookies = req.cookies;
+    if(!cookies?.refreshToken) {
         return res.status(403).json({ success: false, message: "user is not authenticated" });
     }
-
+    
+    const refreshToken = cookies?.refreshToken;
+    
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, (err, decode) => {
         if(err) {
             return res.status(403).json({ success: false, message: "not a valid user" });
         }
-
-        const accessToken = this.generateAccessToken(decode.userInfo);
+        
+        const accessToken = generateAccessToken(decode.userInfo);
         res.status(200).json({ success: true, accessToken: accessToken, data: decode.userInfo });
     });
 }
