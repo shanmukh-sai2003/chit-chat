@@ -6,6 +6,7 @@ import MessageItem from "./MessageItem";
 import MessageInput from "./MessageInput";
 import useChat from '../../utils/useChat';
 import { useNavigate } from 'react-router-dom';
+import ChatHeader from "./ChatHeader";
 
 function ChatPage() {
     const [messageList, setMessageList] = useState();
@@ -34,8 +35,9 @@ function ChatPage() {
 
     return (
         <section className="w-[67vw] bg-slate-800">
-            <MessageInput addMessage={setMessageList} />
-            <div className="my-2 mx-10 flex flex-col-reverse overflow-y-scroll h-[80%] no-scrollbar">
+            <ChatHeader />
+            
+            <div className="mx-10 flex flex-col-reverse overflow-y-scroll h-[70%] no-scrollbar">
                 { messageList?.map(message => {
                     return <MessageItem 
                         key={message._id}
@@ -46,7 +48,7 @@ function ChatPage() {
                     />
                 })}
             </div>
-            
+            <MessageInput addMessage={setMessageList} />
         </section>
     );
 }

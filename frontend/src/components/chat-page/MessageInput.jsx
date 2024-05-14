@@ -34,7 +34,7 @@ function MessageInput(props) {
     }, [chat]);
 
     return (
-        <form method="post" className="w-[70%] fixed bottom-4 text-center" onSubmit={handleSubmit}>
+        <form method="post" className="w-[70%] fixed bottom-2 text-center " onSubmit={handleSubmit}>
             <input type="text" name="message" id="message-input" 
                 required
                 ref={inputRef}

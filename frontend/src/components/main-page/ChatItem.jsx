@@ -9,10 +9,10 @@ function ChatItem(props) {
     const { auth } = useAuth();
     const { chat, setChat } = useChat();
 
-    const username = participants.filter(participant => participant.username !== auth.user.username)[0];
+    const receiver = participants.filter(participant => participant.username !== auth.user.username)[0];
 
     function handleClick() {
-        setChat({ chatId, isGroupChat });
+        setChat({ chatId, isGroupChat, groupName, participants });
     }
 
     return (
@@ -21,7 +21,7 @@ function ChatItem(props) {
                 <img src={ avatar || defaultDP } alt="profile pic" className=' rounded-full' />
             </div>
             <div>
-                <h3 className="font-bold text-2xl">{ isGroupChat ? groupName : username.username }</h3>
+                <h3 className="font-bold text-2xl">{ isGroupChat ? groupName : receiver.username }</h3>
                 <p>{ moment(createdAt).format("MMM Do YYYY") }</p>
             </div>
         </div>
