@@ -10,13 +10,13 @@ function ChatHeader() {
     const receiversNames = receivers.map(receiver => receiver.username);
 
     return (
-        <div className='p-4 bg-slate-700 flex gap-2'>
-            <div className='w-[8%]'>
+        <div className='p-4 bg-slate-900 flex gap-2'>
+            <div className='w-[5%]'>
                 <img src={receivers[0]?.avatar || defaultDp} alt="user profile pic" className='rounded-full'/>
             </div>
-            <div className='ml-8 mt-2'>
-                <h2 className='text-3xl font-bold '>{isGroupChat ? groupName : receivers[0]?.username}</h2>
-                <p>{isGroupChat ? receiversNames.join(',') : receivers[0].email}</p>
+            <div className='ml-4'>
+                <h2 className='text-xl font-bold '>{isGroupChat ? groupName : receivers[0]?.username}</h2>
+                <p className='text-sm'>{isGroupChat ? receiversNames.join(',') : receivers[0].email}</p>
             </div> 
             
         </div>

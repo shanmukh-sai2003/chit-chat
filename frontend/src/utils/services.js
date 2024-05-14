@@ -96,3 +96,15 @@ export const userLogout = async () => {
         }
     }
 }
+
+export const createChat = async (auth, receiverId) => {
+    try {
+        const response = await apiPrivate.post(`/chats/${receiverId}`, {}, { headers: { "Authorization": `Bearer ${auth?.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}

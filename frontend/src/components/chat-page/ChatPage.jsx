@@ -37,7 +37,7 @@ function ChatPage() {
         <section className="w-[67vw] bg-slate-800">
             <ChatHeader />
             
-            <div className="mx-10 flex flex-col-reverse overflow-y-scroll h-[70%] no-scrollbar">
+            <div className="mx-10 flex flex-col-reverse overflow-y-scroll h-[75%] no-scrollbar">
                 { messageList?.map(message => {
                     return <MessageItem 
                         key={message._id}
