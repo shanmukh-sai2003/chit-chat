@@ -1,12 +1,15 @@
 import useAuth from "../../utils/useAuth";
 import defaultDp from '../../images/default-image.jpg';
 import { useEffect, useState } from "react";
-import { getAllChats } from "../../utils/services";
+import { getAllChats, userLogout } from "../../utils/services";
 import ChatItem from "./ChatItem";
+import { useNavigate } from 'react-router-dom';
+
 function ChatList() {
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
     const [ search, setSearch ] = useState('');
     const [ chatsList, setChatsList ] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function getUsers() {
@@ -16,7 +19,6 @@ function ChatList() {
                 if(data?.success) {
                     setChatsList(data?.data);
                 }
-                console.log(data?.message);
             } catch (error) {
                 console.log(error.message);
             }
@@ -24,6 +26,19 @@ function ChatList() {
 
         getUsers();
     }, []);
+
+    async function handleLogout() {
+        try {
+            const data = await userLogout();
+            console.log(data);
+            if(data?.success) {
+                setAuth({});
+                navigate('/login');
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 
     return (
         <section className="p-4 w-[33vw] bg-slate-900 h-[100vh]">
@@ -40,7 +55,7 @@ function ChatList() {
                 </div>
                 <div className="flex justify-between">
                     <button className="p-4 font-bold bg-blue-600 rounded-lg h-fit my-2 mx-1">+Add chat</button>
-                    <button className="p-4 font-bold bg-blue-600 rounded-lg h-fit my-2 mx-1">logout</button>
+                    <button className="p-4 font-bold bg-blue-600 rounded-lg h-fit my-2 mx-1" onClick={handleLogout}>logout</button>
                 </div> 
             </div>
             <div className="my-2">

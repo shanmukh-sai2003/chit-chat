@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllUsers, createUser, userLogin } from '../controllers/userController.js';
+import { getAllUsers, createUser, userLogin, userLogout } from '../controllers/userController.js';
 import { verifyAccessToken, verifyRefreshToken } from '../controllers/authController.js';
 
 const router = express.Router();
@@ -10,7 +10,7 @@ router.post('', createUser);
 
 router.post('/login', userLogin);
 
-router.delete('/logout',);
+router.delete('/logout', userLogout);
 
 router.patch('',);
 

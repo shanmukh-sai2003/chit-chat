@@ -72,3 +72,27 @@ export const sendMessage = async (auth, chatId, body) => {
         }
     }
 }
+
+export const refreshToken = async () => {
+    try {
+        const response = await api.get('/users/refresh');
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}
+
+export const userLogout = async () => {
+    try {
+        const response = await api.delete('/users/logout');
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import useAuth from "../../utils/useAuth";
 import useChat from '../../utils/useChat';
 import { sendMessage } from "../../utils/services";
+import { useNavigate } from "react-router-dom";
 
 function MessageInput(props) {
     const { chat } = useChat();
@@ -10,6 +11,7 @@ function MessageInput(props) {
     const { auth } = useAuth();
     const inputRef = useRef();
     const { addMessage } = props;
+    const navigate = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -19,6 +21,8 @@ function MessageInput(props) {
                 console.log(data);
                 addMessage(prev => [data?.data, ...prev]);
                 setMessage('');
+            } else if(data?.message === "Not a valid user") {
+                navigate('/login');
             }
         } catch (error) {
             console.log(error.message);

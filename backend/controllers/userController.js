@@ -95,7 +95,7 @@ export const userLogin = [
             const accessToken = generateAccessToken(userPlayload);
             const refreshToken = generateRefreshToken(userPlayload);
 
-            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'none' });
+            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'none', secure: true });
 
             res.status(200).json({ success: true, data: userPlayload, accessToken: accessToken });
         } catch (error) {
@@ -120,4 +120,16 @@ export const getAllUsers = async (req, res) => {
         console.log(error);
         res.status(500).json({ success: false, message: error.message });
     }
+}
+
+export const userLogout = (req, res) => {
+    const cookies = req.cookies;
+    if(!cookies?.refreshToken) {
+        return res.status(204).json({ success: true, message: "No refresh token to delete"});
+    } 
+
+    const refreshToken = cookies.refreshToken;
+
+    res.clearCookie('refeshToken', { httpOnly: true, sameSite: 'none', secure: true });
+    res.status(200).json({ success: true, message: "User logged out" });
 }

@@ -5,7 +5,7 @@ function RouteProtector() {
     const { auth } = useAuth();
 
     return (
-        auth ? <Outlet /> : <Navigate to={'/login'} /> 
+        auth?.accessToken ? <Outlet /> : <Navigate to={'/login'} /> 
     );
 }
 

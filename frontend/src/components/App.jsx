@@ -6,6 +6,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import MainPage from './main-page/MainPage';
 import RouteProtector from './RouteProtector';
+import PersistLogin from './PersistLogin';
 
 function App() {
 
@@ -23,11 +24,17 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <RouteProtector />,
+        element: <PersistLogin />,
         children: [
           {
             path: '',
-            element: <ChatProvider><MainPage /></ChatProvider>
+            element: <RouteProtector />,
+            children: [
+              {
+                path: '',
+                element: <ChatProvider><MainPage /></ChatProvider>
+              }
+            ]
           }
         ]
       },

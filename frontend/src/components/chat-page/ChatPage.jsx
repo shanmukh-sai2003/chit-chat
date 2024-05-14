@@ -5,12 +5,14 @@ import { getChatMessages } from "../../utils/services";
 import MessageItem from "./MessageItem";
 import MessageInput from "./MessageInput";
 import useChat from '../../utils/useChat';
+import { useNavigate } from 'react-router-dom';
 
 function ChatPage() {
     const [messageList, setMessageList] = useState();
     const { chat } = useChat();
     const { chatId } = chat;
     const { auth } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getMessages();
@@ -21,6 +23,8 @@ function ChatPage() {
             const data = await getChatMessages(auth, chatId);
             if(data?.success) {
                 setMessageList(data?.data);
+            } else if(data?.message === "Not a valid user") {
+                navigate('/login');
             }
             console.log(data?.message);
         } catch (error) {
