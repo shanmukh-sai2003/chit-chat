@@ -44,8 +44,12 @@ export const createMessage = [
 
             const message = new Message({ sender: userId, chatId: chatId, content: content });
             await message.save();
-
             await message.populate('sender');
+
+            const chat = await Chat.findById(chatId);
+            chat.lastMessage = message._id;
+            chat.updatedAt = new Date();
+            await chat.save();
 
             res.status(200).json({ success: true, message: "message sent", data: message });
         } catch (error) {

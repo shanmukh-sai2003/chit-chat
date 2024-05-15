@@ -5,7 +5,7 @@ import useAuth from '../../utils/useAuth';
 import useChat from '../../utils/useChat';
 
 function ChatItem(props) {
-    const { avatar, participants, chatId, createdAt, isGroupChat, groupName } = props;
+    const { avatar, participants, chatId, isGroupChat, groupName,lastMessage } = props;
     const { auth } = useAuth();
     const { chat, setChat } = useChat();
 
@@ -20,9 +20,12 @@ function ChatItem(props) {
             <div className='w-[20%]'>
                 <img src={ avatar || defaultDP } alt="profile pic" className=' rounded-full' />
             </div>
-            <div>
+            <div className='w-[80%]'>
                 <h3 className="font-bold text-2xl">{ isGroupChat ? groupName : receiver.username }</h3>
-                <p>{ moment(createdAt).format("MMM Do YYYY") }</p>
+                <div className='flex justify-between'>
+                    <p>{ lastMessage?.content }</p>
+                    <p className='text-xs'>{ lastMessage && moment(lastMessage?.sentAt).format('LT')}</p>
+                </div>
             </div>
         </div>
     );

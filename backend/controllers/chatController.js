@@ -49,7 +49,10 @@ export const createChat = async (req, res) => {
 export const getAllChats = async (req, res) => {
     try {
         const userId = req.user.userInfo.userId;
-        const chats = await Chat.find({ participants: { $elemMatch: { $eq: userId }} }).populate('participants', '-password -__v');
+        const chats = await Chat.find({ participants: { $elemMatch: { $eq: userId }} })
+            .populate('participants', '-password -__v')
+            .populate('lastMessage')
+            .sort({ 'updatedAt' : -1 }).exec();
 
         const response = {
             success: true,
@@ -101,8 +104,14 @@ export const createGroupChat = [
             const chat = new Chat({ groupName: name, admin: userId, isGroupChat: true, participants: [...participants, userId] });
             await chat.save();
 
+            await chat.populate('participants');
+
             const response = {
                 success: true,
+                chatId: chat._id,
+                groupName: chat.groupName,
+                isGroupChat: chat.isGroupChat,
+                participants: chat.participants,
                 message: "group created successfully",
             };
 

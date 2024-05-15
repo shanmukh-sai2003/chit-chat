@@ -19,7 +19,7 @@ function Login() {
                 setAuth({ user: data?.data, accessToken: data?.accessToken });
                 setUsername('');
                 setPassword('');
-                navigate('/');
+                navigate('/chats');
             }
             setErrorMessage(data?.message);
         } catch (err) {

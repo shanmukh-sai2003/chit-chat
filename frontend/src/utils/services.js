@@ -108,3 +108,15 @@ export const createChat = async (auth, receiverId) => {
         }
     }
 }
+
+export const createGroup = async (auth, body) => {
+    try {
+        const response = await apiPrivate.post('/chats/groups', body, { headers: { "Authorization": `Bearer ${auth?.accessToken}`} });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message)
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}

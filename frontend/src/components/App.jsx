@@ -7,6 +7,9 @@ import SignUp from './SignUp';
 import MainPage from './main-page/MainPage';
 import RouteProtector from './RouteProtector';
 import PersistLogin from './PersistLogin';
+import ChatList from './main-page/ChatList';
+import UserList from './main-page/UsersList';
+import CreateGroupChat from './group-chat/CreateGroupChat';
 
 function App() {
 
@@ -32,7 +35,21 @@ const router = createBrowserRouter([
             children: [
               {
                 path: '',
-                element: <ChatProvider><MainPage /></ChatProvider>
+                element: <ChatProvider><MainPage /></ChatProvider>,
+                children: [
+                  {
+                    path: '/chats',
+                    element: <ChatList />
+                  },
+                  {
+                    path:'/addChat',
+                    element: <UserList />
+                  },
+                  {
+                    path: '/createGroup',
+                    element: <CreateGroupChat />
+                  }
+                ]
               }
             ]
           }

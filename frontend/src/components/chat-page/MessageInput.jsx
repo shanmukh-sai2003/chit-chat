@@ -6,7 +6,7 @@ import { sendMessage } from "../../utils/services";
 import { useNavigate } from "react-router-dom";
 
 function MessageInput(props) {
-    const { chat } = useChat();
+    const { chat, setChat } = useChat();
     const [message, setMessage] = useState('');
     const { auth } = useAuth();
     const inputRef = useRef();
@@ -21,6 +21,9 @@ function MessageInput(props) {
                 console.log(data);
                 addMessage(prev => [data?.data, ...prev]);
                 setMessage('');
+                setChat(prev => {
+                    return { ...prev, recentChatId: chat?.chatId }
+                });
             } else if(data?.message === "Not a valid user") {
                 navigate('/login');
             }

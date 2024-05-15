@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { getAllChats } from "../../utils/services";
 import useAuth from "../../utils/useAuth";
 import ChatItem from "./ChatItem";
+import useChat from "../../utils/useChat";
 
 function ChatList() {
     const { auth } = useAuth();
     const [ chatsList, setChatsList ] = useState([]);
+    const { chat } = useChat();
 
     useEffect(() => {
         async function getUsers() {
@@ -21,10 +23,10 @@ function ChatList() {
         }
 
         getUsers();
-    }, []);
+    }, [chat]);
 
     return(
-        <div className="my-2">
+        <div className="my-2 h-[100%] overflow-y-scroll">
             { chatsList.map(chat => {
                 return <ChatItem 
                     key={chat._id}
@@ -32,7 +34,7 @@ function ChatList() {
                     participants={chat.participants}
                     isGroupChat={chat.isGroupChat}
                     groupName={chat.groupName}
-                    createdAt={chat.createdAt}
+                    lastMessage={chat.lastMessage}
                 />
             })}
         </div>

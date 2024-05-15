@@ -4,10 +4,9 @@ import { getAllUsers } from "../../utils/services";
 import { useEffect, useState } from "react";
 import UserItem from "./UserItem";
 
-function UserList(props) {
+function UserList() {
     const [userList, setUserList] = useState([]);
     const { auth } = useAuth();
-    const { changeAddChat } = props;
 
     useEffect(() => {
         async function getUsers() {
@@ -34,7 +33,6 @@ function UserList(props) {
                     joinedAt={user.joinedAt}
                     avatar={user.avatar}
                     userId={user._id}
-                    setAddChat={changeAddChat}
                 />
             })}
         </div>

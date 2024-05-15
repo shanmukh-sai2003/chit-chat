@@ -3,13 +3,12 @@ import defaultDp from '../../images/default-image.jpg';
 import { useState } from "react";
 import { userLogout } from "../../utils/services";
 import { useNavigate } from 'react-router-dom';
-import ChatList from "./ChatList";
-import UserList from "./UsersList";
+import { Outlet, Link, NavLink } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
 
 function ChatSideBar() {
     const { auth, setAuth } = useAuth();
     const [ search, setSearch ] = useState('');
-    const [ addChat, setAddChat ] = useState(false);
     const navigate = useNavigate();
 
     async function handleLogout() {
@@ -27,7 +26,7 @@ function ChatSideBar() {
 
     return (
         <section className="p-4 w-[33vw] bg-slate-900 h-[100vh]">
-            <div className="flex justify-center flex-col">
+            <div className="flex justify-center flex-col h-[23%]">
                 <div className="flex items-center">
                     <img src={ auth?.user?.avatar || defaultDp } alt="profile picture" className="w-[5vw] rounded-full m-2 cursor-pointer"/>
                     <input type="text" name="search" 
@@ -39,11 +38,15 @@ function ChatSideBar() {
                     />
                 </div>
                 <div className="flex justify-between">
-                    <button className="p-4 font-bold bg-blue-600 rounded-lg h-fit my-2 mx-1" onClick={() => { setAddChat(!addChat) }}>{ addChat ? "chats" : "+Add chat"}</button>
+                    <NavLink to={`/chats`}><button className="p-4 bg-blue-600 rounded-lg my-2 mx-1 text-xl"><FaHome /></button></NavLink>
+                    <Link to={`/addChat`}><button className="p-4 font-bold bg-blue-600 rounded-lg h-fit my-2 mx-1">+Add chat</button></Link>
+                    <Link to={'/createGroup'}><button className="p-4 bg-blue-600 font-bold my-2 mx-1 rounded-lg">Create group</button></Link>
                     <button className="p-4 font-bold bg-blue-600 rounded-lg h-fit my-2 mx-1" onClick={handleLogout}>logout</button>
                 </div> 
             </div>
-            { addChat ? <UserList changeAddChat={setAddChat} /> : <ChatList /> }
+            <div className="h-[77%]">
+                <Outlet />
+            </div>
         </section>
     );
 }
