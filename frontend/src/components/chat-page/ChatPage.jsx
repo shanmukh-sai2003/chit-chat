@@ -7,17 +7,24 @@ import MessageInput from "./MessageInput";
 import useChat from '../../utils/useChat';
 import { useNavigate } from 'react-router-dom';
 import ChatHeader from "./ChatHeader";
+import ChatDetails from "./ChatDetails";
+import GroupChatDetails from "./GroupChatDetails";
 
 function ChatPage() {
     const [messageList, setMessageList] = useState();
+    const [isDetailPage, setIsDetailPage] = useState(false);
     const { chat } = useChat();
-    const { chatId } = chat;
+    const { chatId, isGroupChat } = chat;
     const { auth } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         getMessages();
     }, [chatId]);
+
+    useEffect(() => {
+        setIsDetailPage(false);
+    }, [chat]);
 
     async function getMessages() {
         try {
@@ -34,8 +41,8 @@ function ChatPage() {
     }
 
     return (
-        <section className="w-[67vw] bg-slate-800">
-            <ChatHeader />
+        <section className="w-[67vw] bg-slate-800 relative">
+            <ChatHeader openChatDetails={setIsDetailPage}/>
             
             <div className="mx-10 flex flex-col-reverse overflow-y-scroll h-[75%] no-scrollbar">
                 { messageList?.map(message => {
@@ -48,6 +55,7 @@ function ChatPage() {
                     />
                 })}
             </div>
+            { isDetailPage && ( isGroupChat ? <GroupChatDetails closePage={setIsDetailPage} /> : <ChatDetails closePage={setIsDetailPage} /> )  }
             <MessageInput addMessage={setMessageList} />
         </section>
     );

@@ -48,6 +48,10 @@ const router = createBrowserRouter([
                   {
                     path: '/createGroup',
                     element: <CreateGroupChat />
+                  },
+                  {
+                    path: '/addParticipant',
+                    element: <UserList />
                   }
                 ]
               }

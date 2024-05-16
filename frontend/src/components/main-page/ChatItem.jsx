@@ -5,14 +5,14 @@ import useAuth from '../../utils/useAuth';
 import useChat from '../../utils/useChat';
 
 function ChatItem(props) {
-    const { avatar, participants, chatId, isGroupChat, groupName,lastMessage } = props;
+    const { avatar, participants, chatId, isGroupChat, groupName, lastMessage,admin } = props;
     const { auth } = useAuth();
     const { chat, setChat } = useChat();
 
     const receiver = participants.filter(participant => participant.username !== auth.user.username)[0];
 
     function handleClick() {
-        setChat({ chatId, isGroupChat, groupName, participants });
+        setChat({ chatId, isGroupChat, groupName, participants, admin });
     }
 
     return (

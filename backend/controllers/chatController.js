@@ -206,9 +206,15 @@ export const addParticipant = async (req, res) => {
         }
 
         if(String(chat.admin) !== userId) {
-            return res.status(403).json({ success: false, message: "That the user is not admin" });
+            return res.status(401).json({ success: false, message: "That the user is not admin" });
         }
 
+        const alreadyParticipant = chat.participants.filter(participant => participant._id === participantId);
+
+        if(alreadyParticipant.length > 0) {
+            return res.status(400).json({ success: false, message: "user already participant in the group" });
+        }
+        
         chat.participants.push(participantId);
         await chat.save();
 

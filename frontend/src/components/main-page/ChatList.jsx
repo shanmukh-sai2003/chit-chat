@@ -35,6 +35,7 @@ function ChatList() {
                     isGroupChat={chat.isGroupChat}
                     groupName={chat.groupName}
                     lastMessage={chat.lastMessage}
+                    admin={chat.admin}
                 />
             })}
         </div>
