@@ -199,7 +199,7 @@ export const addParticipant = async (req, res) => {
             return res.status(400).json({ success: false, message: "User does not exists" });
         }
 
-        const chat = await Chat.findOne({ isGroupChat: true, _id: chatId });
+        const chat = await Chat.findOne({ isGroupChat: true, _id: chatId }).populate('participants', '-password -__v');
 
         if(chat.length == 0) {
             return res.status(400).json({ success: false, message: "No such group chat exists" });
@@ -209,16 +209,16 @@ export const addParticipant = async (req, res) => {
             return res.status(401).json({ success: false, message: "That the user is not admin" });
         }
 
-        const alreadyParticipant = chat.participants.filter(participant => participant._id === participantId);
-
+        const alreadyParticipant = chat.participants.filter(participant => participant._id == participantId);
+        
         if(alreadyParticipant.length > 0) {
             return res.status(400).json({ success: false, message: "user already participant in the group" });
         }
         
         chat.participants.push(participantId);
         await chat.save();
-
-        res.status(200).json({ success: true, message: "participant added" });
+        
+        res.status(200).json({ success: true, message: "participant added", data: chat });
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ success: false, message: error.message });   

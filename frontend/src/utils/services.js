@@ -120,3 +120,39 @@ export const createGroup = async (auth, body) => {
         }
     }
 }
+
+export const addParticipant = async (auth, chatId, participantId) => {
+    try {
+        const response = await apiPrivate.post(`/chats/groups/${chatId}/${participantId}`, {}, { headers: { "Authorization": `Bearer ${auth?.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}
+
+export const getGroupChatDetails = async (auth, chatId) => {
+    try {
+        const response = await apiPrivate.get(`/chats/groups/${chatId}`, { headers: { 'Authorization': `Bearer ${auth?.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.message) {
+            return error?.response?.data;
+        }
+    }
+}
+
+export const removeParticipant = async (auth, chatId, participantId) => {
+    try {
+        const response = await apiPrivate.delete(`/chats/groups/${chatId}/${participantId}`, { headers: { 'Authorization': `Bearer ${auth?.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}

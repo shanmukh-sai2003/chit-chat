@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useAuth from "../../utils/useAuth";
 import { getChatMessages } from "../../utils/services";
 import MessageItem from "./MessageItem";
@@ -17,13 +17,15 @@ function ChatPage() {
     const { chatId, isGroupChat } = chat;
     const { auth } = useAuth();
     const navigate = useNavigate();
+    const chatRef = useRef();
+    chatRef.current = chatId;
 
     useEffect(() => {
         getMessages();
-    }, [chatId]);
+    }, [chat]);
 
     useEffect(() => {
-        setIsDetailPage(false);
+        setIsDetailPage(chatRef.current !== chatId);
     }, [chat]);
 
     async function getMessages() {

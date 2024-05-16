@@ -1,10 +1,23 @@
 /* eslint-disable react/prop-types */
 import defaultDp from '../../images/default-image.jpg';
+import { removeParticipant } from '../../utils/services';
 import useAuth from '../../utils/useAuth';
 
 function ParticipantItem(props) {
-    const { avatar, username, isAdmin, admin } = props;
+    const { avatar, username, isAdmin, admin, chatId, userId, refresh } = props;
     const { auth } = useAuth();
+
+    async function handleRemove() {
+        try {
+            const data = await removeParticipant(auth, chatId, userId);
+            if(data?.success) {
+                refresh();
+                alert(data?.message);
+            }
+        } catch (error) {
+            console.log(error.message);   
+        }
+    }
 
     return (
         <div className="my-4 py-4 px-2 bg-slate-700 rounded-lg flex justify-between">
@@ -17,7 +30,7 @@ function ParticipantItem(props) {
             </div>
             {
                 admin === auth?.user?.userId && !isAdmin &&  <div>
-                    <button className='bg-red-300 text-red-800 p-1 rounded-lg border-2 border-red-900'>remove</button>
+                    <button className='bg-red-300 text-red-800 p-1 rounded-lg border-2 border-red-900' onClick={handleRemove}>remove</button>
                 </div>
             }
         </div>

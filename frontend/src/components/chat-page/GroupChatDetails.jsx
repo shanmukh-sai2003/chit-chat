@@ -5,13 +5,35 @@ import defaultDp from '../../images/default-image.jpg';
 import ParticipantItem from "./ParticipantItem";
 import useAuth from "../../utils/useAuth";
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { getGroupChatDetails } from "../../utils/services";
 
 function GroupChatDetails(props) {
     const { closePage } = props;
+    const [ chatDetails, setChatDetails ] = useState();
     const { chat } = useChat();
-    const { participants, groupName, admin } = chat;
     const { auth } = useAuth();
 
+    useEffect(() => {
+        getChatDetails();
+    }, [chat]);
+
+    async function getChatDetails() {
+        try {
+            const data = await getGroupChatDetails(auth, chat?.chatId);
+            if(data?.success) {
+                setChatDetails(data?.data[0]);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    if(!chatDetails) {
+        return <p>loading...</p>
+    }
+
+    const { participants, groupName, admin } = chatDetails;
 
     return (
         <div className="top-0 absolute right-0 z-10 bg-slate-900 p-4 flex justify-center h-[100%] w-[50%]">
@@ -20,7 +42,7 @@ function GroupChatDetails(props) {
                     <img src={defaultDp} alt="profile picture" className="rounded-full w-[30%]" />
                     <h2 className="font-bold text-3xl my-2">{ groupName }</h2>
                 </div>
-                <h3 className="text-left font-bold text-xl my-4">Participants ({ participants.length })</h3>
+                <h3 className="text-left font-bold text-xl my-4">Participants ({ participants?.length })</h3>
                 <div className="h-[50%] overflow-y-scroll">
                     { participants?.map(participant => {
                         return <ParticipantItem 
@@ -29,10 +51,13 @@ function GroupChatDetails(props) {
                             avatar={participant.avatar}
                             isAdmin={participant._id === admin}
                             admin={admin}
+                            chatId={chat?.chatId}
+                            userId={participant._id}
+                            refresh={getChatDetails}
                         />
                     }) }
                 </div>
-                <div>
+                <div className="my-4">
                     { admin === auth?.user?.userId && <button className="bg-red-600 p-2 rounded-lg mx-2">delete group</button> }
                     { admin === auth?.user?.userId && <Link to={'/addParticipant'}><button className="bg-blue-600 p-2 rounded-lg mx-2">add participant</button></Link> }
                     <button className="p-2 rounded-lg mx-2 bg-black">leave group</button>

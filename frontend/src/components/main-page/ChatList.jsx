@@ -13,7 +13,6 @@ function ChatList() {
         async function getUsers() {
             try {
                 const data = await getAllChats(auth);
-                console.log(data);
                 if(data?.success) {
                     setChatsList(data?.data);
                 }

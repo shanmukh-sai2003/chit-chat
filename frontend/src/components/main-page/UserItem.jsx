@@ -4,21 +4,38 @@ import defaultDP from '../../images/default-image.jpg';
 import { FaPlus } from "react-icons/fa";
 import useAuth from '../../utils/useAuth';
 import useChat from '../../utils/useChat';
-import { createChat } from '../../utils/services';
-import { useNavigate } from 'react-router-dom';
+import { addParticipant, createChat } from '../../utils/services';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function UserItem(props) {
     const { username, email, joinedAt, avatar, userId } = props;
     const { auth } = useAuth();
-    const { setChat } = useChat();
+    const { chat, setChat } = useChat();
     const navigate = useNavigate();
+    const location = useLocation();
+    const pathname = location.pathname.slice(1, location.pathname.length);
 
-    async function handleClick() {
+    async function handleClickForCreateChat() {
         try {
             const data = await createChat(auth, userId);
             if(data?.success) {
                 const { chatId, isGroupchat, groupName, participants } = data;
                 setChat({ chatId, isGroupchat, groupName, participants });
+                navigate('/chats');
+            } else {
+                alert(data?.message);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async function handleClickForAddParticipant() {
+        try {
+            const data = await addParticipant(auth, chat?.chatId, userId);
+            if(data?.success) {
+                const { _id, isGroupChat, admin, participants, groupName, updatedAt } = data.data;
+                setChat({ chatId:_id, isGroupChat, admin, participants, groupName, updatedAt });
                 navigate('/chats');
             } else {
                 alert(data?.message);
@@ -42,7 +59,7 @@ function UserItem(props) {
             </div>
             <div className='flex items-center' >
                 <div>
-                    <button className='text-4xl text-green-700 rounded-full bg-green-200 h-fit p-2' onClick={handleClick}><FaPlus /></button>
+                    <button className='text-4xl text-green-700 rounded-full bg-green-200 h-fit p-2' onClick={ pathname === 'addParticipant' ? handleClickForAddParticipant : handleClickForCreateChat }><FaPlus /></button>
                 </div>
             </div>
         </div>
