@@ -217,7 +217,7 @@ export const addParticipant = async (req, res) => {
         
         chat.participants.push(participantId);
         await chat.save();
-        
+        await chat.populate('participants');
         res.status(200).json({ success: true, message: "participant added", data: chat });
     } catch (error) {
         console.log(error.message);

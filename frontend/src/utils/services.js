@@ -156,3 +156,27 @@ export const removeParticipant = async (auth, chatId, participantId) => {
         }
     }
 }
+
+export const deleteGroup = async (auth, chatId) => {
+    try {
+        const response = await apiPrivate.delete(`/chats/${chatId}`, { headers : { 'Authorization': `Bearer ${auth?.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}
+
+export const leaveGroup = async (auth, chatId) => {
+    try {
+        const response = await apiPrivate.delete(`/chats/groups/${chatId}/leave`, { headers : { 'Authorization': `Bearer ${auth?.chatId}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}

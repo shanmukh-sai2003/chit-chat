@@ -7,6 +7,8 @@ import useAuth from "../../utils/useAuth";
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { getGroupChatDetails } from "../../utils/services";
+import DeleteGroup from "./DeleteGroup";
+import LeaveGroup from "./LeaveGroup";
 
 function GroupChatDetails(props) {
     const { closePage } = props;
@@ -58,9 +60,9 @@ function GroupChatDetails(props) {
                     }) }
                 </div>
                 <div className="my-4">
-                    { admin === auth?.user?.userId && <button className="bg-red-600 p-2 rounded-lg mx-2">delete group</button> }
+                    { admin === auth?.user?.userId && <DeleteGroup /> }
                     { admin === auth?.user?.userId && <Link to={'/addParticipant'}><button className="bg-blue-600 p-2 rounded-lg mx-2">add participant</button></Link> }
-                    <button className="p-2 rounded-lg mx-2 bg-black">leave group</button>
+                    <LeaveGroup />
                 </div>
             </div>
             <div>
