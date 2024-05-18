@@ -180,3 +180,15 @@ export const leaveGroup = async (auth, chatId) => {
         }
     }
 }
+
+export const changeGroupName = async (auth, chatId, body) => {
+    try {
+        const response = await apiPrivate.patch(`/chats/groups/${chatId}`, body, { headers: { 'Authorization': `Bearer ${auth?.accessToken}` } });
+        return response?.data;
+    } catch (error) {
+        console.log(error.message);
+        if(error?.response) {
+            return error?.response?.data;
+        }
+    }
+}

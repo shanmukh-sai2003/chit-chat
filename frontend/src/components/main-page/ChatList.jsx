@@ -25,7 +25,7 @@ function ChatList() {
     }, [chat]);
 
     return(
-        <div className="my-2 h-[100%] overflow-y-scroll">
+        <div className="my-2 h-[100%] overflow-hidden hover:overflow-auto">
             { chatsList.map(chat => {
                 return <ChatItem 
                     key={chat._id}

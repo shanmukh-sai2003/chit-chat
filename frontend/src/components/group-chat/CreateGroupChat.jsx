@@ -85,7 +85,7 @@ function CreateGroupChat() {
 
                 <h4 className="text-2xl font-bold">Add partcipants</h4>
                 <p className="text-xs">*Add atleast 2 members to create group</p>
-                <div className="overflow-y-scroll">
+                <div className="overflow-hidden hover:overflow-auto">
                     <div className="my-2">
                         {usersList?.map(user => {
                             return <ParticipantItem 

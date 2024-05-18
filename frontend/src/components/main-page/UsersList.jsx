@@ -24,7 +24,7 @@ function UserList() {
     }, []);
 
     return (
-        <div>
+        <div className="h-[100%] overflow-hidden hover:overflow-auto">
             {userList?.map(user => {
                 return <UserItem 
                     key={user._id}
