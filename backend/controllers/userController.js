@@ -2,6 +2,7 @@ import { body, validationResult } from 'express-validator';
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 import { generateAccessToken, generateRefreshToken } from './authController.js';
+import uploadFileToCloudinary from '../upload.js';
 
 export const createUser = [
     body('username').trim().notEmpty().escape().withMessage("username cannot be empty").custom( async (value) => {
@@ -37,8 +38,16 @@ export const createUser = [
 
         try {
             const hashPwd = await bcrypt.hash(pwd, 10);
+            let avatar = "";
+            if(req.file) {
+                const avatarLocalPath = req.file.path;
+                const response = await uploadFileToCloudinary(avatarLocalPath);
+                if(response) {
+                    avatar = response.secure_url;
+                }
+            }
 
-            const user = new User({ username: uname, password: hashPwd, email: email });
+            const user = new User({ username: uname, password: hashPwd, email: email, avatar: avatar });
             await user.save();
 
             const response = {
@@ -47,7 +56,8 @@ export const createUser = [
                     username: user.username,
                     userId: user._id,
                     email: user.email,
-                    joinedAt: user.joinedAt
+                    joinedAt: user.joinedAt,
+                    avatar: avatar
                 },
             };
 
