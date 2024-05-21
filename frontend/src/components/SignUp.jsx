@@ -9,6 +9,7 @@ function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [avatar, setAvatar] = useState();
     const [error, setError] = useState('');
     const navigate = useNavigate();
     
@@ -18,8 +19,16 @@ function SignUp() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        const body = new FormData();
+        body.append('avatar', avatar);
+        body.append('name', name);
+        body.append('username', username);
+        body.append('password', password);
+        body.append('email', email);
+        body.append('confirmPassword', confirmPassword);
+        
         try {
-            const data = await createUser({ name, username, email, password, confirmPassword });
+            const data = await createUser(body);
             if(data?.success) {
                 setUsername('');
                 setPassword('');
@@ -36,8 +45,8 @@ function SignUp() {
     }
 
     return (
-        <section className="flex justify-center items-center h-[100vh] bg-slate-900">
-            <form method="post" onSubmit={handleSubmit} className="flex flex-col text-xl w-[90vw] md:w-[30vw] sm:w-[50vw] p-4 rounded-md bg-slate-800 text-white">
+        <section className="flex justify-center items-center bg-slate-900">
+            <form method="post" onSubmit={handleSubmit} className="flex flex-col text-xl w-[90vw] md:w-[30vw] sm:w-[50vw] p-4 rounded-md bg-slate-800 text-white m-8">
                 <h1 className="text-4xl font-bold text-center mt-2 mb-4">Sign up</h1>
                 { error.length !== 0 && <ErrorMessage message={error} />}
                 <label htmlFor="name">name:</label>
@@ -84,6 +93,10 @@ function SignUp() {
                     onChange={(e) => { setConfirmPassword(e.target.value) }}
                     className="rounded-md p-3 my-2 bg-slate-900 focus:outline-none focus:border-white focus:border-2"
                     autoComplete="off"
+                />
+                <label htmlFor="avatar">profile picture:</label>
+                <input type="file" name="avatar" id="avatar"
+                    onChange={(e) => { setAvatar(e.target.files[0]) }}
                 />
                 <button type="submit" className="w-fit p-4 rounded-lg bg-slate-900 font-bold mt-4 hover:shadow-md hover:shadow-blue-500/20">sign up</button>
             </form>

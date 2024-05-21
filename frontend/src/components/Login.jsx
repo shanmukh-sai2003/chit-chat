@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ErrorMessage from "./ErrorMessage";
 import useAuth from '../utils/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { login } from "../utils/services";
 
 function Login() {
@@ -57,6 +57,8 @@ function Login() {
                         required
                     />
                     <button type="submit" className="w-fit p-4 rounded-lg bg-slate-900 font-bold mt-4 hover:shadow-md hover:shadow-blue-500/20">login</button>
+
+                    <p className="mt-4">Don&apos;t have an account?<Link className="mx-2 font-bold underline" to={'/signup'}>create account</Link></p>
                 </form>
            </section> 
         </>

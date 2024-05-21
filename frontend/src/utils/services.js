@@ -3,7 +3,7 @@ import { apiPrivate } from './api';
 
 export const createUser = async (body) => {
     try {
-        const response = await api.post('/users', body);
+        const response = await api.post('/users', body, { headers: { "Content-Type": "multipart/form-data" } });
         return response?.data;
     } catch (error) {
         console.log(error.message);

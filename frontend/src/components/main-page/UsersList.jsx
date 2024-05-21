@@ -14,6 +14,7 @@ function UserList() {
                 const data = await getAllUsers(auth);
                 if(data?.success) {
                     setUserList(data?.data);
+                    console.log(data.data);
                 } 
             } catch (error) {
                 console.log(error.message);

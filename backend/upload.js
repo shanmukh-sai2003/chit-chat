@@ -11,7 +11,7 @@ async function uploadFileToCloudinary(localPath) {
     try {
         if(!localPath) return;
 
-        const response = await cloudinary.uploader.upload(localPath);
+        const response = await cloudinary.uploader.upload(localPath, { aspect_ratio: "1.0", width: 400, height: 400, crop: "pad" });
         fs.unlinkSync(localPath);
         
         return response;
