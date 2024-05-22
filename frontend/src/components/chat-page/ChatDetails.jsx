@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import useAuth from "../../utils/useAuth";
 import useChat from "../../utils/useChat";
-import defaultDp from '../../images/default-image.jpg';
 import moment from "moment";
 import { MdCancel } from 'react-icons/md';
+import IndividualDp from "../profile-pics/IndividualDp";
 
 function ChatDetails(props) {
     const { closePage } = props;
@@ -15,7 +15,7 @@ function ChatDetails(props) {
     return (
         <div className="top-0 absolute right-0 z-10 bg-slate-900 p-4 flex justify-center h-[100%] w-[50%]">
             <div className="w-[50%] text-center my-4">
-                <img src={ receiver?.avatar || defaultDp } alt="profile picture" className="rounded-full"/>
+                <IndividualDp receiver={receiver} />
                 <h2 className="font-bold text-3xl">{ receiver?.username }</h2>
                 <p>{ receiver?.email }</p>
                 <p>{ moment(receiver?.joinedAt).format('MMM Do YYYY') }</p>

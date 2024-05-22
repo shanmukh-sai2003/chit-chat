@@ -99,8 +99,8 @@ export const userLogin = [
                 return res.status(401).json({ success: false, message: "invalid password" });
             }
 
-            const { username, email, joinedAt, _id } = user;
-            const userPlayload = { username, email, joinedAt, userId: _id };
+            const { username, email, joinedAt, _id, avatar } = user;
+            const userPlayload = { username, email, joinedAt, userId: _id, avatar };
 
             const accessToken = generateAccessToken(userPlayload);
             const refreshToken = generateRefreshToken(userPlayload);

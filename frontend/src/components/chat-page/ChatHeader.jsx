@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import defaultDp from '../../images/default-image.jpg';
+import GroupDp from '../profile-pics/GroupDp';
+import IndividualDp from '../profile-pics/IndividualDp';
 import useAuth from '../../utils/useAuth';
 import useChat from '../../utils/useChat';
 
@@ -14,9 +15,9 @@ function ChatHeader(props) {
     return (
         <div className='p-4 bg-slate-900 flex gap-2 cursor-pointer' onClick={() => openChatDetails(true)}>
             <div className='w-[5%]'>
-                <img src={receivers[0]?.avatar || defaultDp} alt="user profile pic" className='rounded-full'/>
+                { isGroupChat ? <GroupDp participants={participants} /> : <IndividualDp receiver={receivers[0]}/>}
             </div>
-            <div className='ml-4'>
+            <div className={`${ isGroupChat ? 'ml-20' : 'ml-4' }`}>
                 <h2 className='text-xl font-bold '>{isGroupChat ? groupName : receivers[0]?.username}</h2>
                 <p className='text-sm'>{isGroupChat ? receiversNames?.join(',') : receivers[0]?.email}</p>
             </div> 

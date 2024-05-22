@@ -2,7 +2,6 @@
 import useChat from "../../utils/useChat";
 import { MdCancel } from "react-icons/md";
 import { FaEdit } from 'react-icons/fa';
-import defaultDp from '../../images/default-image.jpg';
 import ParticipantItem from "./ParticipantItem";
 import useAuth from "../../utils/useAuth";
 import { Link } from 'react-router-dom';
@@ -10,6 +9,7 @@ import { useEffect, useState } from "react";
 import { changeGroupName, getGroupChatDetails } from "../../utils/services";
 import DeleteGroup from "./DeleteGroup";
 import LeaveGroup from "./LeaveGroup";
+import GroupDp from "../profile-pics/GroupDp";
 
 function GroupChatDetails(props) {
     const { closePage } = props;
@@ -59,7 +59,7 @@ function GroupChatDetails(props) {
         <div className="top-0 absolute right-0 z-10 bg-slate-900 p-4 flex justify-center h-[100%] w-[50%]">
             <div className="my-4">
                 <div className="flex flex-col items-center">
-                    <img src={defaultDp} alt="profile picture" className="rounded-full w-[30%]" />
+                    <GroupDp participants={participants}/>
                     <div className="flex">
                         <input 
                             className={`font-bold text-3xl my-2 bg-slate-900 text-center focus:outline-none ${editName && 'border-2 border-white'} rounded-md`} 
