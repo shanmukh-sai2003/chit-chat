@@ -9,9 +9,10 @@ function GroupDp(props) {
             <div className="flex flex-wrap">
                 { participants.slice(0, 3)?.map((participant, index) => {
                     return <IndividualDp 
-                        extraClasses={`absolute left-${(2 - index) * 5} w-[70%] h-[80%] bg-black p-1`}
+                        extraClasses={`absolute w-[60%] h-[80%] bg-black p-1`}
                         receiver={participant} 
                         key={participant._id}
+                        i={index}
                     />
                 })}
             </div>
