@@ -1,18 +1,17 @@
 /* eslint-disable react/prop-types */
-import IndividualDp from "./IndividualDp";
+import defaultDp from '../../images/default-image.jpg';
 
 function GroupDp(props) {
     const { participants } = props;
 
     return (
-        <div className="relative w-[120px] h-[90px]">
+        <div className="relative w-[100px] h-[85px]">
             <div className="flex flex-wrap">
                 { participants.slice(0, 3)?.map((participant, index) => {
-                    return <IndividualDp 
-                        extraClasses={`absolute w-[60%] h-[80%] bg-black p-1`}
-                        receiver={participant} 
+                    return <img 
+                        src={ participant.avatar || defaultDp }
                         key={participant._id}
-                        i={index}
+                        className={`absolute w-[70%] h-[80%] bg-black p-1 rounded-full left-${(2 - index) * 2}`}
                     />
                 })}
             </div>

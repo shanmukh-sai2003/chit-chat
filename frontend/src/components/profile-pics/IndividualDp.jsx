@@ -3,7 +3,7 @@ import defaultDp from '../../images/default-image.jpg';
 
 function IndividualDp(props) {
     const { receiver, extraClasses, i } = props;
-    const left = `left-${(2 -i) * 5}`;
+    const left = `left-${(2 - i) * 5}`;
 
     return (
         <>

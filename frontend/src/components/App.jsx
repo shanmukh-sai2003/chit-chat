@@ -10,7 +10,9 @@ import PersistLogin from './PersistLogin';
 import ChatList from './main-page/ChatList';
 import UserList from './main-page/UsersList';
 import CreateGroupChat from './group-chat/CreateGroupChat';
+import { io } from 'socket.io-client';
 
+const socket = io('http://localhost:3000');
 function App() {
 
   return (

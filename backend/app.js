@@ -6,10 +6,14 @@ import makeDbConnection from './connection.js';
 import userRouter from './routes/userRoutes.js';
 import chatRouter from './routes/chatRoutes.js';
 import messageRouter from './routes/messageRoutes.js';
+import { createServer } from 'http';
+import { Server } from "socket.io";
 import dotenv from 'dotenv';
+import { initializeIO } from "./socket.js";
 dotenv.config();
 
 const app = express();
+const httpServer = createServer(app);
 
 // middleware setup
 app.use(logger('dev'));
@@ -25,13 +29,21 @@ app.use(cors({
 // Database connection
 makeDbConnection();
 
+// socket.io - setup
+const io = new Server(httpServer, {
+    cors: {
+        origin: '*'
+    }
+});
+
 // Routes setup
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/chats', chatRouter);
 app.use('/api/v1/messages', messageRouter);
 
-const PORT = process.env.PORT || 3000;
+initializeIO(io);
 
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => {
     console.log(`server is listening at ${PORT}`);
 });
