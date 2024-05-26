@@ -59,7 +59,9 @@ function GroupChatDetails(props) {
         <div className="top-0 absolute right-0 z-10 bg-slate-900 p-4 flex justify-center h-[100%] w-[50%]">
             <div className="my-4">
                 <div className="flex flex-col items-center">
-                    <GroupDp participants={participants}/>
+                    <div className="w-36">
+                        <GroupDp participants={participants}/>
+                    </div>
                     <div className="flex">
                         <input 
                             className={`font-bold text-3xl my-2 bg-slate-900 text-center focus:outline-none ${editName && 'border-2 border-white'} rounded-md`} 
