@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import ChatHeader from "./ChatHeader";
 import ChatDetails from "./ChatDetails";
 import GroupChatDetails from "./GroupChatDetails";
+import useSocket from '../../utils/useSocket';
 
 function ChatPage() {
     const [messageList, setMessageList] = useState();
@@ -17,9 +18,21 @@ function ChatPage() {
     const { chatId, isGroupChat } = chat;
     const { auth } = useAuth();
     const navigate = useNavigate();
+    const { socket } = useSocket();
     
     useEffect(() => {
         getMessages();
+        
+        const receivedMessage = (data) => {
+            console.log(data);
+        }
+
+        socket.on('receivedMessage', receivedMessage);
+
+        return () => {
+            socket.off('receivedMessage', receivedMessage);
+        }
+
     }, [chat]);
 
     async function getMessages() {

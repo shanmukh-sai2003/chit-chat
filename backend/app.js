@@ -36,6 +36,8 @@ const io = new Server(httpServer, {
     }
 });
 
+app.set("io", io);
+
 // Routes setup
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/chats', chatRouter);

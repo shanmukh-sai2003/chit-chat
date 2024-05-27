@@ -1,6 +1,7 @@
 import Chat from '../models/chat.js';
 import Message from '../models/message.js';
 import { body, validationResult, param } from 'express-validator';
+import { emitEvent } from '../socket.js';
 
 export const getAllMessages = async (req, res) => {
     try {
@@ -46,10 +47,17 @@ export const createMessage = [
             await message.save();
             await message.populate('sender');
 
-            const chat = await Chat.findById(chatId);
+            const chat = await Chat.findById(chatId).populate('participants', '-password');
             chat.lastMessage = message._id;
             chat.updatedAt = new Date();
             await chat.save();
+
+            chat.participants.map(receiver => {
+                if(receiver._id.toString() !== userId.toString()) {
+                    
+                    emitEvent(req, receiver._id.toString(), "receivedMessage", message);
+                }
+            });
 
             res.status(200).json({ success: true, message: "message sent", data: message });
         } catch (error) {
