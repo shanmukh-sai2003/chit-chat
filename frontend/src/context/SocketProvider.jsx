@@ -1,34 +1,32 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import SocketContext from "./socketContext";
 import { io } from 'socket.io-client';
 import useAuth from '../utils/useAuth';
 
 function SocketProvider({ children }) {
-    const [socket, setSocket] = useState();
     const { auth } = useAuth();
 
-    function getSocket() {
-        const socket = io('http://localhost:3000', {
+    const socket = useMemo(() => io('http://localhost:3000', {
             auth: {
                 token: auth?.accessToken
             }
-        });
-        setSocket(socket);
-    }
+    }), [auth]);
 
     useEffect(() => {
-        getSocket();
+        console.log(socket.id);
 
         return () => {
             socket?.on('disconnect', () => {
                 socket.removeAllListeners();
             });
+
+            socket.disconnect();
         }
     }, [auth]);
 
     return (
-        <SocketContext.Provider value={{setSocket, socket}}>
+        <SocketContext.Provider value={{socket}}>
             { children }
         </SocketContext.Provider>
     );

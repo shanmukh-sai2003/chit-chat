@@ -24,7 +24,7 @@ function ChatPage() {
         getMessages();
         
         const receivedMessage = (data) => {
-            console.log(data);
+            setMessageList([data, ...messageList]);
         }
 
         socket.on('receivedMessage', receivedMessage);

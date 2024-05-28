@@ -18,6 +18,7 @@ function initializeIO(io) {
             return
         }
 
+        console.log('userId:', user._id.toString());
         socket.join(user._id.toString());
     });
 }
