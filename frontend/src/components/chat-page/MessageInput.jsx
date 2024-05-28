@@ -34,6 +34,7 @@ function MessageInput(props) {
 
     useEffect(() => {
         inputRef.current.focus();
+        setMessage('');
     }, [chat]);
 
     return (

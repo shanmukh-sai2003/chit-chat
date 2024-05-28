@@ -3,14 +3,16 @@ import { getAllChats } from "../../utils/services";
 import useAuth from "../../utils/useAuth";
 import ChatItem from "./ChatItem";
 import useChat from "../../utils/useChat";
+import useSocket from '../../utils/useSocket';
 
 function ChatList() {
     const { auth } = useAuth();
     const [ chatsList, setChatsList ] = useState([]);
     const { chat } = useChat();
+    const { socket } = useSocket();
 
     useEffect(() => {
-        async function getUsers() {
+        async function getChats() {
             try {
                 const data = await getAllChats(auth);
                 if(data?.success) {
@@ -21,7 +23,13 @@ function ChatList() {
             }
         }
 
-        getUsers();
+        socket.on('receivedMessage', getChats);
+
+        getChats();
+
+        return () => {
+            socket.off('receivedMessage', getChats)
+        }
     }, [chat]);
 
     return(
