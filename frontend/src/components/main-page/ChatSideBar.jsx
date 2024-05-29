@@ -25,7 +25,7 @@ function ChatSideBar() {
     }
 
     return (
-        <section className="p-4 w-[33vw] bg-slate-900 h-[100vh]">
+        <section className="p-4 w-[33vw] bg-slate-900 h-[100vh] border-black border-2">
             <div className="flex justify-center flex-col h-[23%]">
                 <div className="flex items-center">
                     <img src={ auth?.user?.avatar || defaultDp } alt="profile picture" className="w-[5vw] rounded-full m-2 cursor-pointer"/>

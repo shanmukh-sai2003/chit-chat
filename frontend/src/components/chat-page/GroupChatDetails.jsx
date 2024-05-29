@@ -56,7 +56,7 @@ function GroupChatDetails(props) {
     const { participants, admin } = chatDetails;
 
     return (
-        <div className="top-0 absolute right-0 z-10 bg-slate-900 p-4 flex justify-center h-[100%] w-[50%]">
+        <div className="top-0 absolute right-0 z-10 bg-slate-900 p-4 flex justify-center h-[100%] w-[50%] border-black border-2">
             <div className="my-4">
                 <div className="flex flex-col items-center">
                     <div className="w-36">
