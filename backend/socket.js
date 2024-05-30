@@ -20,6 +20,18 @@ function initializeIO(io) {
 
         console.log('userId:', user._id.toString());
         socket.join(user._id.toString());
+
+        socket.on('joinChat', (chatId) => {
+            socket.join(chatId);
+        });
+
+        socket.on('typing', (chatId) => {
+            socket.in(chatId).emit('typing', chatId);
+        });
+
+        socket.on('stopTyping', (chatId) => {
+            socket.in(chatId).emit('stopTyping', chatId);
+        });
     });
 }
 

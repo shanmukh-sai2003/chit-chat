@@ -4,6 +4,7 @@ import useAuth from "../../utils/useAuth";
 import useChat from '../../utils/useChat';
 import { sendMessage } from "../../utils/services";
 import { useNavigate } from "react-router-dom";
+import useSocket from "../../utils/useSocket";
 
 function MessageInput(props) {
     const { chat, setChat } = useChat();
@@ -11,10 +12,12 @@ function MessageInput(props) {
     const { auth } = useAuth();
     const inputRef = useRef();
     const { addMessage } = props;
+    const { socket } = useSocket();
     const navigate = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
+        handleStopTyping();
         try {
             const data = await sendMessage(auth, chat?.chatId, { content: message });
             if(data?.success) {
@@ -32,6 +35,14 @@ function MessageInput(props) {
         }
     }
 
+    function handleTyping() {
+        socket.emit('typing', chat?.chatId);
+    }
+
+    function handleStopTyping() {
+        socket.emit('stopTyping', chat?.chatId);
+    }
+
     useEffect(() => {
         inputRef.current.focus();
         setMessage('');
@@ -47,6 +58,7 @@ function MessageInput(props) {
                     value={message}
                     onChange={(e) => { setMessage(e.target.value) }}
                     className="w-[70%] p-3 m-2 bg-slate-900 rounded-lg focus:outline-none focus:border-white focus:border-2"
+                    onKeyDown={handleTyping}
                 />
                 <button type="submit" className="p-3 w-fit bg-blue-700 rounded-lg font-bold">Send</button>
             </form>
