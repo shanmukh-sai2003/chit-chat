@@ -10,9 +10,10 @@ import ChatHeader from "./ChatHeader";
 import ChatDetails from "./ChatDetails";
 import GroupChatDetails from "./GroupChatDetails";
 import useSocket from '../../utils/useSocket';
+import Loading from "../Loading";
 
 function ChatPage() {
-    const [messageList, setMessageList] = useState();
+    const [messageList, setMessageList] = useState([]);
     const [isDetailPage, setIsDetailPage] = useState(false);
     const { chat } = useChat();
     const { chatId, isGroupChat } = chat;
@@ -49,6 +50,10 @@ function ChatPage() {
         } catch (error) {
             console.log(error.message);
         }
+    }
+
+    if(messageList.length === 0) {
+        return <Loading />
     }
 
     return (

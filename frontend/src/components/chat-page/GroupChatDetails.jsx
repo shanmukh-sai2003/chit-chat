@@ -10,6 +10,7 @@ import { changeGroupName, getGroupChatDetails } from "../../utils/services";
 import DeleteGroup from "./DeleteGroup";
 import LeaveGroup from "./LeaveGroup";
 import GroupDp from "../profile-pics/GroupDp";
+import Loading from "../Loading";
 
 function GroupChatDetails(props) {
     const { closePage } = props;
@@ -50,7 +51,7 @@ function GroupChatDetails(props) {
     }
 
     if(!chatDetails) {
-        return <p>loading...</p>
+        return <Loading />
     }
 
     const { participants, admin } = chatDetails;

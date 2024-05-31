@@ -3,6 +3,7 @@ import useAuth from "../../utils/useAuth";
 import { getAllUsers } from "../../utils/services";
 import { useEffect, useState } from "react";
 import UserItem from "./UserItem";
+import Loading from "../Loading";
 
 function UserList() {
     const [userList, setUserList] = useState([]);
@@ -23,6 +24,10 @@ function UserList() {
 
         getUsers();
     }, []);
+
+    if(userList.length === 0) {
+        return <Loading />
+    }
 
     return (
         <div className="h-[100%] overflow-hidden hover:overflow-auto">

@@ -5,6 +5,7 @@ import useAuth from "../../utils/useAuth";
 import AddedParticipant from "./AddedParticipant";
 import useChat from '../../utils/useChat';
 import { useNavigate } from 'react-router-dom';
+import Loading from "../Loading";
 
 function CreateGroupChat() {
     const [name, setName] = useState('');
@@ -16,7 +17,7 @@ function CreateGroupChat() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        inputRef.current.focus();
+        inputRef?.current?.focus();
     }, []);
 
     useEffect(() => {
@@ -54,6 +55,9 @@ function CreateGroupChat() {
         }
     }
     
+    if(usersList.length === 0) {
+        return <Loading />
+    }
 
     return (
         <div className="h-[100%]">

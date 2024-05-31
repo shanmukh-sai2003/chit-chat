@@ -4,6 +4,7 @@ import useAuth from "../../utils/useAuth";
 import ChatItem from "./ChatItem";
 import useChat from "../../utils/useChat";
 import useSocket from '../../utils/useSocket';
+import Loading from "../Loading";
 
 function ChatList() {
     const { auth } = useAuth();
@@ -32,9 +33,13 @@ function ChatList() {
         }
     }, [chat]);
 
+    if(chatsList.length === 0) {
+        return <Loading/>
+    }
+
     return(
         <div className="my-2 h-[100%] overflow-hidden hover:overflow-auto">
-            { chatsList.map(chat => {
+            { chatsList?.map(chat => {
                 return <ChatItem 
                     key={chat._id}
                     chatId={chat._id}
