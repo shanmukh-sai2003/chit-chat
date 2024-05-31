@@ -26,7 +26,7 @@ function ChatPage() {
         
         const receivedMessage = (data) => {
             if(chatId === data?.chatId) {
-                setMessageList([data, ...messageList]);
+                setMessageList(prev => [data, ...prev]);
             }
         }
 

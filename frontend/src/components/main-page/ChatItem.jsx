@@ -30,7 +30,7 @@ function ChatItem(props) {
                 clearTimeout(typingTimeOut);
                 typingTimeOut = setTimeout(() => {
                     setIsTyping(false);
-                }, 2000);
+                }, 1000);
             }
         }
         socket.on('typing', changingTypingStatus);
