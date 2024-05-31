@@ -13,7 +13,7 @@ import useSocket from '../../utils/useSocket';
 import Loading from "../Loading";
 
 function ChatPage() {
-    const [messageList, setMessageList] = useState([]);
+    const [messageList, setMessageList] = useState();
     const [isDetailPage, setIsDetailPage] = useState(false);
     const { chat } = useChat();
     const { chatId, isGroupChat } = chat;
@@ -52,7 +52,7 @@ function ChatPage() {
         }
     }
 
-    if(messageList.length === 0) {
+    if(!messageList) {
         return <div className="w-[67vw]"><Loading /></div>
     }
 
