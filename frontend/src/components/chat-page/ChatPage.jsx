@@ -53,7 +53,7 @@ function ChatPage() {
     }
 
     if(messageList.length === 0) {
-        return <Loading />
+        return <div className="w-[67vw]"><Loading /></div>
     }
 
     return (
