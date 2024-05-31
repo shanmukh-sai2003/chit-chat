@@ -20,7 +20,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-const allowOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
+const allowOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://chit-chat-txaj.onrender.com'];
 app.use(cors({
     origin: allowOrigins,
     credentials: true,
